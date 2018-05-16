@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
 </head>
+
 <body>
-    <h1>URL Shortener</h1>
+	<h1>URL Shortener</h1>
+	<table>
+		<tr>
+			<!-- 행 -->
+			<th>Long Url</th>
+			<th>Short Url</th>
+		</tr>
+		<% urls.forEach(urlItem => { %>
+			<tr>
+				<td>
+					<%= urlItem.longUrl %>
+				</td>
+				<td>
+					<!-- href="" 안에 프로토콜을 지정하지 않고 반환하면 요청에 맞는 프로토콜로 자동으로 대입되어 작동한다 -->
+					<a href="//<%= host %>/<%= urlItem.slug %>"><%= urlItem.slug %></a>
+				</td>
+			</tr>
+			<% }) %>
+	</table>
 </body>
+
 </html>
