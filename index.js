@@ -1,3 +1,4 @@
+require('dotenv').config() // dotenv 를 위해 가장 상단
 const express = require('express')
 // morgan : terminal 에 log (text) 가 나오게 하는 express middleware
 const morgan = require('morgan')
@@ -25,7 +26,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/new', (req, res) => {
-	res.render('new.ejs')
+	const host = req.get('host')
+	if(req.query.secret === process.env.SECRET) {
+		res.render('new.ejs', {secret: process.env.SECRET})
+	} else {
+		res.status(403) // none-authorized user
+		res.send('403 not permitted')
+	}
 })
 
 app.get('/:slug', (req, res) => {
@@ -39,12 +46,17 @@ app.get('/:slug', (req, res) => {
 })
 
 app.post('/new', (req, res) => {
-	const urlItem = {
-		longUrl: req.body.longUrl,
-		slug: randomstring.generate(8)
+	if(req.body.secret === process.env.SECRET) {
+		const urlItem = {
+			longUrl: req.body.longUrl,
+			slug: randomstring.generate(8)
+		}	
+		urls.push(urlItem)
+		res.redirect('/')
+	} else {
+		res.status(403) // none-authorized user
+		res.send('403 not permitted')
 	}
-	urls.push(urlItem)
-	res.redirect('/')
 })
 
 app.listen(3000, () => {

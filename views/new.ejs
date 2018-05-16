@@ -8,8 +8,8 @@
 </head>
 <body>
     <h2>Generate New URL</h2>
-    <button><a href="//<%= host %>/">GO BACK URL LIST</a></button>
     <form action="/new" method="post">
+        <input type="hidden" name="secret" value="<%= secret %>">
         <label for="">Long URL</label>
         <input type="url" name="longUrl" required>
         <button type="submit">SUBMIT</button>
